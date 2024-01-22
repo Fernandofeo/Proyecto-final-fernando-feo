@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
  //  agregar productos al carrito
  
-let agregarAlCarrito = async (productId) => {
+let agregarAlCarrito = async (producto,id) => {
     try {
         const resp = await fetch("/data/producto.json");
         const data = await resp.json();
@@ -48,7 +48,8 @@ let agregarAlCarrito = async (productId) => {
         const productoSeleccionado = productos.find(producto => producto.id === productId);
         const cantidadInput = document.getElementById(`cantidad-${productId}`);
         const cantidad = parseInt(cantidadInput.value);
-        const productoAgregado = document.createElement  (`button`);HTMLButtonElement.onclick ( productoAgregado )
+        const productoAgregado = document.createElement  (`button`); HTMLButtonElement.onclick ( productoAgregado )
+        productoElement.className= 'agregarcarrito'
         productoElement.innerHTML=`<button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>`;
         productosContainer.appendChild(productoAgregado);
        
@@ -72,13 +73,17 @@ let agregarAlCarrito = async (productId) => {
         }
     } catch (error) {
         console.log("Error al cargar los productos:", error);
-    }
+    } 
 };
 
 
 
   //  actualizar el total del carrito
-  function actualizarTotal() {
+ let actualizarTotal  = async  (producto,id) => {
+    try{
+        const resp = await fetch("/data/producto.json");
+        const data = await resp.json();
+        const productos = [...data ] ;
       let total = 0;
       localStorage.setItem("productos", JSON.stringify(producto));
       Array.from(carritoLista.children).forEach(item => {
@@ -86,12 +91,13 @@ let agregarAlCarrito = async (productId) => {
           total += precio;
 
       });
-      totalElement.textContent = total.toFixed(2);
+      totalElement.textContent = total.toFixed(2); 
+    } catch (error) {
+        console.log("Error al cargar los productos:", error);
+    } 
   }
     
      realizarCompra = () => {
-    // Aquí puedes implementar la lógica para finalizar la compra
-   
      Swal.fire({
       title: "Compra realizada",
       icon: "success"
@@ -99,9 +105,9 @@ let agregarAlCarrito = async (productId) => {
     
     carritoLista.innerHTML = '';
     totalElement.textContent = '0.00';
-    cantidadesEnCarrito = {}; // Limpiar cantidades en el carrito
+    cantidadesEnCarrito = {}; 
     productos.forEach(producto => {
-        producto.stock = Math.floor(Math.random() * 10) + 1; // Restablecer el stock de forma aleatoria para el ejemplo
+        producto.stock = Math.floor(Math.random() * 10) + 1; 
     });
     mostrarProductos();
 };
