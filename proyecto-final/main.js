@@ -1,9 +1,33 @@
+ 
+let agregarAlCarrito = async (productId) => {
+    try {
+        const resp = await fetch("/data/producto.json");
+        const data = await resp.json();
+        const productos = [...data ] ;
+        const productoSeleccionado = productos.find(producto => producto === productId);
+        const cantidadInput = document.getElementById(`cantidad-${productId}`);
+        const cantidad = parseInt(cantidadInput.value);
+        const productoAgregado = document.createElement  (`button`); 
+        productoElement.innerHTML= `<button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>`
+        productosContainer.appendChild(productoAgregado);
+       
+        const itemEnCarrito = document.createElement('li');
+            itemEnCarrito.innerHTML = `${productoSeleccionado.nombre} - $${productoSeleccionado.precio} x ${cantidad}`;
+            carritoLista.appendChild(itemEnCarrito);
+
+            productoSeleccionado.stock -= cantidad;
+            mostrarProductos();
+            actualizarTotal();
+      
+     } catch (error) {
+        console.log("Error al cargar los productos:");
+    } 
+};
 document.addEventListener('DOMContentLoaded', () => {
    
     const productosContainer = document.getElementById('productos');
     const carritoLista = document.getElementById('carrito-lista');
     const totalElement = document.getElementById('total');
-  
     // productos con precio y stock
     const carrito = [ ];
     const productos = [ ];
@@ -39,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
    //  agregar productos al carrito
-  
- let agregarAlCarrito = async (productId) => {
+ 
+/* let agregarAlCarrito = async (productId) => {
       try {
           const resp = await fetch("/data/producto.json");
           const data = await resp.json();
@@ -53,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
           productosContainer.appendChild(productoAgregado);
          
   
-          if (productoSeleccionado && productoSeleccionado.stock >= cantidad) {
+         if (productoSeleccionado && productoSeleccionado.stock >= cantidad) {
               if (cantidadesEnCarrito[productId]) {
                   cantidadesEnCarrito[productId] === cantidad;
               } else {
@@ -72,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       } catch (error) {
           console.log("Error al cargar los productos:", error);
-      } 
-  };  
+      } ;
+     }*/
   
   
 
     //  actualizar el total del carrito
-   let actualizarTotal  = async  (producto,id) => {
+   let actualizarTotal  = async  (producto) => {
       try{
           const resp = await fetch("/data/producto.json");
           const data = await resp.json();
