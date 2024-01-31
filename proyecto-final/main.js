@@ -61,46 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       };
     
-    
-   //  agregar productos al carrito
- 
-/* let agregarAlCarrito = async (productId) => {
-      try {
-          const resp = await fetch("/data/producto.json");
-          const data = await resp.json();
-          const productos = [...data ] ;
-          const productoSeleccionado = productos.find(producto => producto === productId);
-          const cantidadInput = document.getElementById(`cantidad-${productId}`);
-          const cantidad = parseInt(cantidadInput.value);
-          const productoAgregado = document.createElement  (`button`); 
-          productoElement.innerHTML= `<button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>`
-          productosContainer.appendChild(productoAgregado);
-         
-  
-         if (productoSeleccionado && productoSeleccionado.stock >= cantidad) {
-              if (cantidadesEnCarrito[productId]) {
-                  cantidadesEnCarrito[productId] === cantidad;
-              } else {
-                  cantidadesEnCarrito[productId] != cantidad;
-              }
-  
-              const itemEnCarrito = document.createElement('li');
-              itemEnCarrito.innerHTML = `${productoSeleccionado.nombre} - $${productoSeleccionado.precio} x ${cantidad}`;
-              carritoLista.appendChild(itemEnCarrito);
-  
-              productoSeleccionado.stock -= cantidad;
-              mostrarProductos();
-              actualizarTotal();
-          } else {
-              alert('Cantidad no válida o producto agotado');
-          }
-      } catch (error) {
-          console.log("Error al cargar los productos:", error);
-      } ;
-     }*/
-  
-  
-
     //  actualizar el total del carrito
    let actualizarTotal  = async  (producto) => {
       try{
@@ -132,10 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
       productos.forEach(producto => {
           producto.stock = Math.floor(Math.random() * 10) + 1; 
       });
-      mostrarProductos();
+      agregarAlCarrito();
+      actualizarTotal();
   };
   
   
     mostrarProductos();
    
-  });
+ 
+   
+ });
